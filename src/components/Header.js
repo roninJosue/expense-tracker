@@ -1,0 +1,1 @@
+export const Header = () => (<h2>Expense tracker made using recoilJS</h2>)
