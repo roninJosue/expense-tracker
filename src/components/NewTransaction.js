@@ -1,12 +1,17 @@
-import {useState} from "react";
-import {useSetRecoilState} from "recoil";
+import {useEffect, useState} from "react";
+import { useRecoilState } from "recoil";
 import {v4 as uuidv4} from "uuid";
 import {transactionListState} from "../recoil/atoms";
 
 export const NewTransaction = () => {
   const [textValue, setTextValue] = useState("");
   const [amount, setAmount] = useState(0);
-  const setTransactionList = useSetRecoilState(transactionListState);
+  const [transactionList, setTransactionList] = useRecoilState(transactionListState);
+
+  useEffect(() => {
+    console.log('transactionList')
+    localStorage.setItem("transactionList", JSON.stringify(transactionList));
+  }, [transactionList]);
 
   const newTransaction = e => {
     e.preventDefault();
@@ -36,11 +41,11 @@ export const NewTransaction = () => {
       <form>
         <div>
           <label htmlFor="text">Description</label>
-          <input type="text" id="text" value={textValue} onChange={handleTextValue} />
+          <input type="text" id="text" value={textValue} onChange={handleTextValue}/>
         </div>
         <div>
           <label htmlFor="amount">Amount</label>
-          <input type="number" id="amount" value={amount} onChange={handleAmount} />
+          <input type="number" id="amount" value={amount} onChange={handleAmount}/>
         </div>
         <button type="button" onClick={newTransaction}>Add transaction</button>
       </form>
