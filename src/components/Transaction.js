@@ -1,15 +1,25 @@
+import {useEffect, useState} from "react";
 import {useRecoilState} from "recoil";
 import {transactionListState} from "../recoil/atoms";
-import {removeItemAtIndex} from "../utils";
+import {removeItemAtIndex, updateLocalStorage} from "../utils";
 
 export const Transaction = ({ transaction }) => {
   const [transactionList, setTransactionList] = useRecoilState(transactionListState);
+  const [deleted, setDeleted] = useState(false);
 
   const index = transactionList.findIndex(listItem => listItem === transaction);
 
+  useEffect(() => {
+    if (deleted) {
+      updateLocalStorage(transactionList);
+      setDeleted(false);
+    }
+  }, [transactionList, deleted]);
+
   const removeTransaction = () => {
     const newList = removeItemAtIndex(transactionList, index);
-    setTransactionList(newList);
+    setTransactionList(_t => newList);
+    setDeleted(true);
   }
 
   const sign = transaction.amount < 0 ? "-" : "+";

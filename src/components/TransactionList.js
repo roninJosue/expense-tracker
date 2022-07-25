@@ -8,7 +8,7 @@ export const TransactionList = () => {
   const [transactionList, setTransactionList] = useRecoilState(transactionListState);
 
   useEffect(() => {
-    setTransactionList(_t => JSON.parse(localStorage.getItem(TRANSACTION_LIST_STORE)));
+    setTransactionList(_t => JSON.parse(localStorage.getItem(TRANSACTION_LIST_STORE)) || []);
   }, [setTransactionList]);
 
   return (
