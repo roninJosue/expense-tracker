@@ -2,16 +2,19 @@ import {useEffect, useState} from "react";
 import { useRecoilState } from "recoil";
 import {v4 as uuidv4} from "uuid";
 import {transactionListState} from "../recoil/atoms";
+import {TRANSACTION_LIST_STORE} from "../utils";
 
 export const NewTransaction = () => {
   const [textValue, setTextValue] = useState("");
   const [amount, setAmount] = useState(0);
+  const [isSaved, setIsSaved] = useState(false);
   const [transactionList, setTransactionList] = useRecoilState(transactionListState);
 
   useEffect(() => {
-    console.log('transactionList')
-    localStorage.setItem("transactionList", JSON.stringify(transactionList));
-  }, [transactionList]);
+    if (isSaved){
+      localStorage.setItem(TRANSACTION_LIST_STORE, JSON.stringify(transactionList));
+    }
+  }, [isSaved, transactionList]);
 
   const newTransaction = e => {
     e.preventDefault();
@@ -25,6 +28,7 @@ export const NewTransaction = () => {
     ])
     setTextValue("");
     setAmount(0);
+    setIsSaved(true);
   }
 
   const handleTextValue = e => {

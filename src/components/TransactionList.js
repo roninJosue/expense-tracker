@@ -2,15 +2,15 @@ import {useEffect} from "react";
 import {useRecoilState} from "recoil";
 import { transactionListState } from "../recoil/atoms";
 import {Transaction} from "./Transaction";
+import {TRANSACTION_LIST_STORE} from "../utils";
 
 export const TransactionList = () => {
   const [transactionList, setTransactionList] = useRecoilState(transactionListState);
 
   useEffect(() => {
-    console.log(JSON.parse(localStorage.getItem("transactionList")))
-    setTransactionList(JSON.parse(localStorage.getItem("transactionList")));
+    setTransactionList(_t => JSON.parse(localStorage.getItem(TRANSACTION_LIST_STORE)));
   }, [setTransactionList]);
-console.log(transactionList)
+
   return (
     <>
       <h3>Transaction history</h3>
